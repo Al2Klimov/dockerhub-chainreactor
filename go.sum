@@ -1,5 +1,7 @@
 github.com/Al2Klimov/atomic v0.0.0-20200203073310-43a1242452f2 h1:AKKTOPu+KA8S16ubQQ2/t4tAiFLD6XCr6c3hp2BkJk8=
 github.com/Al2Klimov/atomic v0.0.0-20200203073310-43a1242452f2/go.mod h1:qWycOyQ4vnYOiKKRGbbiyQ9YYlvVvhkyFU0VD1MJUF8=
+github.com/Al2Klimov/go-gen-source-repos v0.0.0-20191012103425-993a7199781c h1:Cj6JIOX7kXMv0kK+GLej9gthif7phbuXjJCrjs/s/S4=
+github.com/Al2Klimov/go-gen-source-repos v0.0.0-20191012103425-993a7199781c/go.mod h1:l5fESJQgkQ1xeQjuPK9uEUKF/mTq6WPsPBOgu050BAY=
 github.com/Microsoft/go-winio v0.4.14 h1:+hMXMk01us9KgxGb7ftKQt2Xpf5hH/yky+TDA+qxleU=
 github.com/Microsoft/go-winio v0.4.14/go.mod h1:qXqCSQ3Xa7+6tgxaGTIe4Kpcdsi+P8jBhyzoq1bpyYA=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

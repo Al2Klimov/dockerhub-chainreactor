@@ -1,7 +1,7 @@
 FROM golang as build
 
 ADD . /src
-RUN ["/bin/bash", "-exo", "pipefail", "-c", "cd /src; CGO_ENABLED=0 go build -o /dockerhub-chainreactor ."]
+RUN ["/bin/bash", "-exo", "pipefail", "-c", "cd /src; go generate; CGO_ENABLED=0 go build -o /dockerhub-chainreactor ."]
 
 
 FROM scratch
