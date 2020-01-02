@@ -2,10 +2,13 @@ package main
 
 import (
 	"github.com/fsnotify/fsnotify"
+	"github.com/robfig/cron/v3"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"path"
+	"strings"
+	"time"
 )
 
 func main() {
@@ -16,9 +19,13 @@ func main() {
 
 LoadConfig:
 	for {
-		var config configuration
+		var config *configuration
 		var ok bool
 		var level log.Level
+		var schedule cron.Schedule
+		var nextBuild time.Time
+		var timer *time.Timer = nil
+		var timerCh <-chan time.Time = nil
 
 		{
 			if config, ok = loadConfig(); ok {
@@ -36,22 +43,56 @@ LoadConfig:
 						ok = false
 					}
 				}
+
+				if strings.TrimSpace(config.Build.Every) == "" {
+					log.Error("Build schedule missing")
+					ok = false
+				} else {
+					var errCP error
+					if schedule, errCP = cronParser.Parse(config.Build.Every); errCP != nil {
+						log.WithFields(log.Fields{
+							"bad_schedule": config.Build.Every, "error": jsonableError{errCP},
+						}).Error("Bad build schedule")
+						ok = false
+					}
+				}
 			}
 		}
 
 		if ok {
 			log.WithFields(log.Fields{"old": log.GetLevel(), "new": level}).Trace("Changing log level")
 			log.SetLevel(level)
+
+			now := time.Now()
+			nextBuild = schedule.Next(now)
+
+			log.WithFields(log.Fields{"next_build": nextBuild}).Info("Scheduling next build")
+			timer, timerCh = prepareSleep(nextBuild.Sub(now))
 		}
 
 		for {
 			select {
+			case now := <-timerCh:
+				if now.Before(nextBuild) {
+					timer, timerCh = prepareSleep(nextBuild.Sub(now))
+				} else {
+					log.Info("Building")
+
+					nextBuild = schedule.Next(time.Now())
+
+					log.WithFields(log.Fields{"next_build": nextBuild}).Info("Scheduling next build")
+					timer, timerCh = prepareSleep(nextBuild.Sub(now))
+				}
 			case event := <-watcher.Events:
 				log.WithFields(log.Fields{
 					"parent": watchPath, "child": event.Name, "op": jsonableStringer{event.Op},
 				}).Trace("Got FS event")
 
 				if event.Op&^fsnotify.Chmod != 0 && path.Clean(event.Name) == configPath {
+					if timer != nil {
+						timer.Stop()
+					}
+
 					continue LoadConfig
 				}
 			case errWa := <-watcher.Errors:
@@ -78,7 +119,7 @@ func mkWatcher() *fsnotify.Watcher {
 	return watcher
 }
 
-func loadConfig() (config configuration, ok bool) {
+func loadConfig() (config *configuration, ok bool) {
 	log.WithFields(log.Fields{"path": configPath}).Info("Loading config")
 
 	raw, errRF := ioutil.ReadFile(configPath)
@@ -87,11 +128,19 @@ func loadConfig() (config configuration, ok bool) {
 		return
 	}
 
-	if errYU := yaml.Unmarshal(raw, &config); errYU != nil {
+	config = &configuration{}
+	if errYU := yaml.Unmarshal(raw, config); errYU != nil {
 		log.WithFields(log.Fields{"path": configPath, "error": jsonableError{errYU}}).Error("Couldn't parse config")
 		return
 	}
 
 	ok = true
 	return
+}
+
+func prepareSleep(duration time.Duration) (*time.Timer, <-chan time.Time) {
+	log.WithFields(log.Fields{"ns": duration}).Trace("Sleeping")
+
+	timer := time.NewTimer(duration)
+	return timer, timer.C
 }
