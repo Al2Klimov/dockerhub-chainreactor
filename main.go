@@ -26,6 +26,7 @@ LoadConfig:
 		var nextBuild time.Time
 		var timer *time.Timer = nil
 		var timerCh <-chan time.Time = nil
+		var hub []hubConfig
 
 		{
 			if config, ok = loadConfig(); ok {
@@ -56,6 +57,8 @@ LoadConfig:
 						ok = false
 					}
 				}
+
+				hub = config.Hub
 			}
 		}
 
@@ -77,6 +80,7 @@ LoadConfig:
 					timer, timerCh = prepareSleep(nextBuild.Sub(now))
 				} else {
 					log.Info("Building")
+					build(hub)
 
 					nextBuild = schedule.Next(time.Now())
 

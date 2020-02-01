@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"encoding"
 	"fmt"
 	"github.com/robfig/cron/v3"
 	lev "github.com/schollz/closestmatch/levenshtein"
 	log "github.com/sirupsen/logrus"
+	"io"
 	"os"
 	"os/signal"
 	"strings"
@@ -25,6 +27,7 @@ var logLevels = func() *lev.ClosestMatch {
 }()
 
 var cronParser = cron.NewParser(cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow)
+var background = context.Background()
 
 type jsonableError struct {
 	err error
@@ -56,6 +59,19 @@ func (jblla jsonableBadLogLevelAlt) MarshalText() (text []byte, err error) {
 	return []byte(logLevels.Closest(strings.ToLower(jblla.badLogLevel))), nil
 }
 
+type nullWriter struct {
+}
+
+var _ io.Writer = nullWriter{}
+
+func (nullWriter) Write(p []byte) (int, error) {
+	return len(p), nil
+}
+
+type hubConfig struct {
+	Base []string `yaml:"base"`
+}
+
 type configuration struct {
 	Log struct {
 		Level string `yaml:"level"`
@@ -63,6 +79,7 @@ type configuration struct {
 	Build struct {
 		Every string `yaml:"every"`
 	} `yaml:"build"`
+	Hub []hubConfig `yaml:"hub"`
 }
 
 func initLogging() {
