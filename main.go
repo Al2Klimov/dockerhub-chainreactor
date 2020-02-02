@@ -58,7 +58,16 @@ LoadConfig:
 					}
 				}
 
-				hub = config.Hub
+				for _, hub := range config.Hub {
+					if strings.TrimSpace(hub.Post) == "" {
+						log.Error("Trigger URL missing")
+						ok = false
+					}
+				}
+
+				if ok {
+					hub = config.Hub
+				}
 			}
 		}
 

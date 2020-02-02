@@ -23,7 +23,9 @@ func build(hub []hubConfig) {
 
 	for _, h := range hub {
 		for _, base := range h.Base {
-			images[normalize(base)] = struct{}{}
+			if base = strings.TrimSpace(base); base != "" {
+				images[normalize(base)] = struct{}{}
+			}
 		}
 	}
 
@@ -77,8 +79,10 @@ func build(hub []hubConfig) {
 		}
 
 		for _, base := range h.Base {
-			base = normalize(base)
-			url[base] = ids[base]
+			if base = strings.TrimSpace(base); base != "" {
+				base = normalize(base)
+				url[base] = ids[base]
+			}
 		}
 	}
 
