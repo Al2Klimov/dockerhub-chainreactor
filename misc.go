@@ -2,11 +2,13 @@ package main
 
 import (
 	"context"
+	"crypto/sha1"
 	"encoding"
 	"fmt"
 	"github.com/robfig/cron/v3"
 	lev "github.com/schollz/closestmatch/levenshtein"
 	log "github.com/sirupsen/logrus"
+	"hash"
 	"io"
 	"os"
 	"os/signal"
@@ -16,6 +18,7 @@ import (
 
 const watchPath = "./"
 const configPath = "config.yml"
+const statePath = "state.gob"
 
 var logLevels = func() *lev.ClosestMatch {
 	asStrs := make([]string, 0, len(log.AllLevels))
@@ -68,7 +71,38 @@ func (nullWriter) Write(p []byte) (int, error) {
 	return len(p), nil
 }
 
+type hashWrapper64 struct {
+	wrapped hash.Hash
+}
+
+var _ hash.Hash64 = hashWrapper64{}
+
+func (hw hashWrapper64) Write(p []byte) (int, error) {
+	return hw.wrapped.Write(p)
+}
+
+func (hw hashWrapper64) Sum(b []byte) []byte {
+	return hw.wrapped.Sum(b)
+}
+
+func (hw hashWrapper64) Reset() {
+	hw.wrapped.Reset()
+}
+
+func (hw hashWrapper64) Size() int {
+	return hw.wrapped.Size()
+}
+
+func (hw hashWrapper64) BlockSize() int {
+	return hw.wrapped.BlockSize()
+}
+
+func (hw hashWrapper64) Sum64() uint64 {
+	return 0
+}
+
 type hubConfig struct {
+	Post string   `yaml:"post"`
 	Base []string `yaml:"base"`
 }
 
@@ -81,6 +115,8 @@ type configuration struct {
 	} `yaml:"build"`
 	Hub []hubConfig `yaml:"hub"`
 }
+
+type state map[string][sha1.Size]byte
 
 func initLogging() {
 	log.SetFormatter(&log.JSONFormatter{})

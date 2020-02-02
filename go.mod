@@ -3,6 +3,7 @@ module dockerhub-chainreactor
 go 1.13
 
 require (
+	github.com/Al2Klimov/atomic v0.0.0-20200203073310-43a1242452f2
 	github.com/Microsoft/go-winio v0.4.14 // indirect
 	github.com/docker/distribution v0.0.0-20171011171712-7484e51bf6af // indirect
 	github.com/docker/docker v1.13.1
@@ -10,6 +11,7 @@ require (
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/kr/pretty v0.1.0 // indirect
+	github.com/mitchellh/hashstructure v1.0.0
 	github.com/moby/moby v1.13.1
 	github.com/opencontainers/go-digest v1.0.0-rc1 // indirect
 	github.com/robfig/cron/v3 v3.0.0
