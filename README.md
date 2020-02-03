@@ -24,6 +24,7 @@ build:
   every: '0 0 * * *'
 hub:
   # URL to POST to ...
+  # (Your repo - Builds - Configure Automated Builds - Build Triggers)
 - post: https://hub.docker.com/api/build/v1/source/XXXX/trigger/YYYY/call/
   base:
   # ... on changes of these images:
