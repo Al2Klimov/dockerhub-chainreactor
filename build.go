@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"crypto/sha1"
 	"encoding/gob"
 	fatomic "github.com/Al2Klimov/atomic"
 	"github.com/docker/docker/api/types"
@@ -88,15 +87,13 @@ func build(hub []hubConfig) {
 
 	next := make(state, len(urls))
 	for url, imgs := range urls {
-		hash := sha1.New()
-		if _, errHs := hashstruct.Hash(imgs, &hashstruct.HashOptions{Hasher: hashWrapper64{hash}}); errHs != nil {
+		hash, errHs := hashstruct.Hash(imgs, nil)
+		if errHs != nil {
 			log.WithFields(log.Fields{"value": imgs, "error": jsonableError{errHs}}).Error("Couldn't hash value")
 			return
 		}
 
-		var sum [sha1.Size]byte
-		copy(sum[:], hash.Sum(nil))
-		next[url] = sum
+		next[url] = hash
 	}
 
 	var current state
