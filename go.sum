@@ -1,5 +1,3 @@
-github.com/Al2Klimov/atomic v0.0.0-20200203073310-43a1242452f2 h1:AKKTOPu+KA8S16ubQQ2/t4tAiFLD6XCr6c3hp2BkJk8=
-github.com/Al2Klimov/atomic v0.0.0-20200203073310-43a1242452f2/go.mod h1:qWycOyQ4vnYOiKKRGbbiyQ9YYlvVvhkyFU0VD1MJUF8=
 github.com/Al2Klimov/go-gen-source-repos v0.0.0-20191012103425-993a7199781c h1:Cj6JIOX7kXMv0kK+GLej9gthif7phbuXjJCrjs/s/S4=
 github.com/Al2Klimov/go-gen-source-repos v0.0.0-20191012103425-993a7199781c/go.mod h1:l5fESJQgkQ1xeQjuPK9uEUKF/mTq6WPsPBOgu050BAY=
 github.com/Microsoft/go-winio v0.4.14 h1:+hMXMk01us9KgxGb7ftKQt2Xpf5hH/yky+TDA+qxleU=
@@ -28,6 +26,8 @@ github.com/mitchellh/hashstructure v1.0.0 h1:ZkRJX1CyOoTkar7p/mLS5TZU4nJ1Rn/F8u9
 github.com/mitchellh/hashstructure v1.0.0/go.mod h1:QjSHrPWS+BGUVBYkbTZWEnOh3G1DutKwClXU/ABz6AQ=
 github.com/moby/moby v1.13.1 h1:mC5WwQwCXt/dYxZ1cIrRsnJAWw7VdtcTZUIGr4tXzOM=
 github.com/moby/moby v1.13.1/go.mod h1:fDXVQ6+S340veQPv35CzDahGBmHsiclFwfEygB/TWMc=
+github.com/natefinch/atomic v0.0.0-20200526193002-18c0533a5b09 h1:DXR0VtCesBD2ss3toN9OEeXszpQmW9dc3SvUbUfiBC0=
+github.com/natefinch/atomic v0.0.0-20200526193002-18c0533a5b09/go.mod h1:1rLVY/DWf3U6vSZgH16S7pymfrhK2lcUlXjgGglw/lY=
 github.com/opencontainers/go-digest v1.0.0-rc1 h1:WzifXhOVOEOuFYOJAW6aQqW0TooG2iki3E3Ii+WN7gQ=
 github.com/opencontainers/go-digest v1.0.0-rc1/go.mod h1:cMLVZDEM3+U2I4VmLI6N8jQYUd2OVphdqWwCJHrFt2s=
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=

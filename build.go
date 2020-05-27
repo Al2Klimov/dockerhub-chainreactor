@@ -5,7 +5,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/gob"
-	fatomic "github.com/Al2Klimov/atomic"
+	fatomic "github.com/natefinch/atomic"
 	"github.com/docker/docker/api/types"
 	hashstruct "github.com/mitchellh/hashstructure"
 	docker "github.com/moby/moby/client"
