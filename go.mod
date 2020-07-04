@@ -9,7 +9,7 @@ require (
 	github.com/docker/docker v1.13.1
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.4.0 // indirect
-	github.com/fsnotify/fsnotify v1.4.7
+	github.com/fsnotify/fsnotify v1.4.9
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/moby/moby v1.13.1
