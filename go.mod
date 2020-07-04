@@ -17,7 +17,7 @@ require (
 	github.com/opencontainers/go-digest v1.0.0-rc1 // indirect
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/schollz/closestmatch v2.1.0+incompatible
-	github.com/sirupsen/logrus v1.4.2
+	github.com/sirupsen/logrus v1.6.0
 	github.com/stretchr/testify v1.4.0 // indirect
 	golang.org/x/net v0.0.0-20190311183353-d8887717615a // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
