@@ -11,7 +11,7 @@ require (
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/kr/pretty v0.1.0 // indirect
-	github.com/mitchellh/hashstructure v1.0.0
+	github.com/mitchellh/hashstructure v1.1.0
 	github.com/moby/moby v1.13.1
 	github.com/natefinch/atomic v0.0.0-20200526193002-18c0533a5b09
 	github.com/opencontainers/go-digest v1.0.0-rc1 // indirect
